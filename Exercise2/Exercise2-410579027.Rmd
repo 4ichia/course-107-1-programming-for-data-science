@@ -18,7 +18,12 @@ iPeenData <- read_csv("https://raw.githubusercontent.com/tpemartin/course-107-1-
 
 ```{r ans1}
 iPeenData$'均消' <- as.numeric(iPeenData$'均消')
+strsplit(iPeenData$`均消`," ")[2]
+str_extract(iPeenData$`均消`,"[0-9]+") #正規表達法
+str_split_fixed(iPeenData$`均消`," ",n=Inf)[,2]
 
+a <- strsplit
+  #迴圈
 ```
 
 ## 2 
