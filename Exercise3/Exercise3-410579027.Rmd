@@ -28,7 +28,7 @@ classData$`公-10-06` <- as.factor(classData$`公-10-06`)
 選出"有看公告"的classData樣本。
 
 ```{r ans12}
-str_extract_all(classData$`公-10-06`,"有看公告")
+classData$`公-10-06`[classData$`公-10-06`== "有看公告"]
 ```
 
 ### 1.3
@@ -37,13 +37,15 @@ str_extract_all(classData$`公-10-06`,"有看公告")
 在「有看公告」的人裡，有多少比例在2018-10-17有commit-push記錄（即值為1）。
 
 ```{r ans13}
-
+a <- classData$`公-10-06`[classData$`練2018-10-17-1`== "1"]
+a[a == "有看公告"]
 ```
 
 ### 1.4
 在「沒看公告」的人裡，有多少比例在2018-10-17有commit-push記錄（即值為1）。
 
 ```{r ans14}
+a[a == "沒看公告"]
 ```
 
 ## 2 作業繳交時間
@@ -80,11 +82,13 @@ difftime(deadline - hwData$Timestamp)
 利用`round()`將early變數的天數四捨五入到整數。
 
 ```{r ans24}
+round(hwData$early)
 ```
 
 ### 2.5
 作業1（即作業代碼為"hw1"）準時交的人中，他們的提早天數分佈如何？請使用`table()`呈現。
 
 ```{r ans25}
+table(hwData$early)
 ```
 
