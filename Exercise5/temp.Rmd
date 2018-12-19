@@ -3,7 +3,7 @@ title: "Exercise 5"
 params:
   studentID: "410579027"
   studentName: "陳依嘉"
-  repoURL: "這個作業的GitHub repo網址（選填;留意要與repoURL:間空一格）"
+  repoURL: ""
 ---
 作業上傳截止日期：2018-12-16 00:00:00 Asia/Taipei Time (即台灣時間15號半夜12點，或16號凌晨0點)
 作業上傳網址：https://docs.google.com/forms/d/e/1FAIpQLScyV1OCzaeg-2CeSev6aibpTruGhQ2gg-NeWbCX2EQnK1DxxA/viewform?entry.1232937468=Exercise5
@@ -13,7 +13,7 @@ params:
 repoURL若有，老師要給你建議時會更容易，但不強迫。
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(dplyr); library(stringr); library(lubridate); library(purrr)
 ```
 
