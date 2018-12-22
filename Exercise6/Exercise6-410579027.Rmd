@@ -39,10 +39,10 @@ hwGrades <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/ma
 ```{r ans11}
 classSurvey %>%
   mutate(
-    as.factor(`性別`),
+    性別=as.factor(`性別`),
     入學年=str_sub(學號,2,4),
     團隊活動 = !(課外活動 == "無")
-  )
+  )->classSurvey
 #如何創造邏輯變數
 
 ```
@@ -59,6 +59,13 @@ classSurvey %>%
 這裡步驟(1)使用group_by；步驟(2)使用summarise   
   
 ```{r ans12}
+classSurvey %>%
+  group_by(性別) %>%
+  summarise(
+    `人數`=n(),
+    `參加團隊活動人數`=sum(團隊活動==T),
+    `參加團隊活動比例`=參加團隊活動人數/人數,
+  )
 
 ```
 
