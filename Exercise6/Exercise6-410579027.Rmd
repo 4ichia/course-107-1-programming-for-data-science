@@ -37,13 +37,28 @@ hwGrades <- read_csv("https://raw.githubusercontent.com/tpemartin/github-data/ma
   - 創造**團隊活動**Logic變數，TRUE表示有參與團隊活動，FALSE表示沒有（由**課外活動**變數產生）
     
 ```{r ans11}
+# classSurvey %>%
+#   mutate(
+#     性別=as.factor(`性別`),
+#     入學年=str_sub(學號,2,4),
+#     團隊活動 = !(課外活動 == "無") #這樣打工也算進去了，但題目只有要團隊活動的
+#   )->classSurvey
+
+# classSurvey %>%
+#   mutate(
+#     性別=as.factor(`性別`),
+#     入學年=str_sub(學號,2,4),
+#     團隊活動 = (課外活動 == "團隊活動") #這樣有團隊活動但也有打工的人會被排除，因為使用==就是要一模一樣
+#   )->classSurvey
+
+#如何創造邏輯變數?
+
 classSurvey %>%
   mutate(
-    性別=as.factor(`性別`),
+    性別=as.factor(性別),
     入學年=str_sub(學號,2,4),
-    團隊活動 = !(課外活動 == "無")
-  )->classSurvey
-#如何創造邏輯變數
+    團隊活動=str_detect(課外活動,"團隊活動")  #str_detect使用
+  ) -> classSurvey; classSurvey
 
 ```
 
@@ -112,19 +127,23 @@ na2zero <- function(x){
 例用na2zero函數，透過mutate將hwGrades三次作業NA成績均轉成0。(結果記得回存hwGrades) (對程式能力掌握好的同學我建議試著用`mutate_if()`來對所有numeric class變數(三次作業成績都是這個class)進行na2zero轉換。)
 
 ```{r ans14}
+# mutate_if()
 na2zero(hwGrades$hw1)->hwGrades$hw1
 na2zero(hwGrades$hw2)->hwGrades$hw2
 na2zero(hwGrades$Exercise3)->hwGrades$Exercise3
 hwGrades
 
 #失敗
-#library(magrittr)
-#hwGrades %$%
-  #mutate(
-   # na2zero(.$hw1),
-    #na2zero(.$hw2),
-   # na2zero(.$Exercise3)
- # )
+# library(magrittr)
+# hwGrades %>%
+# mutate(.,
+# na2zero(hw1),
+# na2zero(hw2),
+# na2zero(Exercise3)
+# )
+# hwGrades %>%
+#   select(學號,hw1) %>%
+#   mutate_if(c(F, F, T), min(na.rm = T))
 ```
 
 ## 1.5 資料整併
@@ -154,11 +173,10 @@ hwGrades %>%
 ```
 
 ## 1.6 個人作業平均成績
-使用整併完的hwGrades透過`mutate()`來計算每個人的**作業平均成績**。（結果請回存hwGrades）
-
 ```{r ans16}
 hwGrades %>% mutate(
-  作業平均成績=rowSums(hwGrades[,c(2:4)])/3
+  作業平均成績=(hw1+hw2+Exercise3)/3
+    #rowSums(hwGrades[,c(2:4)])/3
 )-> hwGrades
 ```
 
@@ -166,12 +184,14 @@ hwGrades %>% mutate(
 延續上題的hwGrades，請使用`group_by()`及`summarise()`來計算男/女性的**平均作業平均成績**。(結果還會出現性別NA組的平均)
 
 ```{r ans17}
-averagehw <- function(x){
-  作業平均成績=rowSums(x[,c(2:4)])/3
-  return(x)
-}
+hwGrades %>%
+  group_by(性別) %>%
+  summarise(
+    平均作業平均成績=mean(作業平均成績)
+  )
+#hwGrades %>% group_by(性別) %>% summarise(
+#  作業平均成績=(hw1+hw2+Exercise3)/3
+#)-> hwGrades
 
-hwGrades %>% group_by(性別) %>%
-  averagehw()
 ```
 
